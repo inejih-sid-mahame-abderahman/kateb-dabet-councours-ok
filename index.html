@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>اختبار كاتب الضبط — QCM متعدد الأجوبة</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', 'Tahoma', Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1e293b;
+            padding: 16px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #app {
+            max-width: 820px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            padding: 24px 20px 32px;
+            transition: all 0.2s;
+        }
+        h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; }
+        h1 {
+            font-size: 1.9rem;
+            color: #0f172a;
+            border-right: 6px solid #7c3aed;
+            padding-right: 14px;
+            margin-bottom: 6px;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #475569;
+            margin-bottom: 24px;
+            padding-right: 20px;
+            border-right: 3px solid #94a3b8;
+        }
+        .badge {
+            display: inline-block;
+            background: #f3e8ff;
+            color: #6d28d9;
+            font-size: 0.75rem;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            margin-left: 6px;
+        }
+        .multi-badge {
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 0.72rem;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 16px;
+            align-items: center;
+            margin: 18px 0 12px;
+        }
+        .filter-group {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 16px 18px;
+            margin: 12px 0 18px;
+            border: 1px solid #e2e8f0;
+        }
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            align-items: center;
+        }
+        .filter-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #334155;
+            min-width: 60px;
+        }
+        select, button {
+            font-size: 1rem;
+            padding: 10px 18px;
+            border-radius: 40px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            color: #1e293b;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+            min-height: 48px;
+            min-width: 90px;
+            touch-action: manipulation;
+            font-family: inherit;
+        }
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 14px center;
+            background-size: 16px;
+            padding-left: 40px;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        button {
+            background: #7c3aed;
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 10px 28px;
+            box-shadow: 0 2px 6px rgba(124, 58, 237, 0.2);
+        }
+        button:hover { background: #6d28d9; }
+        button:active { transform: scale(0.97); }
+        .btn-outline {
+            background: transparent;
+            color: #7c3aed;
+            border: 1.5px solid #7c3aed;
+            box-shadow: none;
+        }
+        .btn-outline:hover { background: #f3e8ff; }
+        .btn-success { background: #16a34a; }
+        .btn-success:hover { background: #15803d; }
+        .btn-secondary { background: #94a3b8; }
+        .btn-secondary:hover { background: #64748b; }
+        .btn-verify {
+            background: #ea580c;
+            padding: 12px 32px;
+            font-size: 1rem;
+        }
+        .btn-verify:hover { background: #c2410c; }
+        .btn-verify:disabled { background: #cbd5e1; cursor: not-allowed; }
+        .question-card {
+            background: #fafcff;
+            border-radius: 28px;
+            padding: 20px 18px 12px;
+            margin: 12px 0 16px;
+            border: 1px solid #e9edf2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #475569;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .q-text {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            font-weight: 500;
+            margin: 8px 0 6px;
+            padding: 0 4px;
+        }
+        .q-hint {
+            font-size: 0.85rem;
+            color: #92400e;
+            background: #fef3c7;
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 16px 0 10px;
+        }
+        .option-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 14px 22px;
+            font-size: 1.02rem;
+            text-align: right;
+            transition: 0.12s;
+            touch-action: manipulation;
+            cursor: pointer;
+            font-weight: 450;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+        .option-btn:active { transform: scale(0.98); }
+        .option-btn .letter {
+            background: #f1f5f9;
+            border-radius: 40px;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #1e293b;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+            border: 2px solid transparent;
+            transition: 0.15s;
+        }
+        .option-btn.checked { border-color: #7c3aed; background: #f5f3ff; }
+        .option-btn.checked .letter { background: #7c3aed; color: #fff; }
+        .option-btn.correct { border-color: #16a34a; background: #dcfce7; }
+        .option-btn.correct .letter { background: #16a34a; color: #fff; }
+        .option-btn.wrong { border-color: #dc2626; background: #fee2e2; }
+        .option-btn.wrong .letter { background: #dc2626; color: #fff; }
+        .option-btn.missed { border-color: #16a34a; background: #f0fdf4; border-style: dashed; }
+        .option-btn.disabled { cursor: default; opacity: 0.95; }
+        .feedback-box {
+            background: #f1f5f9;
+            border-radius: 24px;
+            padding: 16px 20px;
+            margin: 16px 0 12px;
+            border-right: 6px solid #94a3b8;
+        }
+        .feedback-box.correct-fb { border-right-color: #16a34a; background: #f0fdf4; }
+        .feedback-box.wrong-fb { border-right-color: #dc2626; background: #fef2f2; }
+        .fb-title { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+        .fb-explain { font-size: 0.96rem; line-height: 1.6; color: #1e293b; }
+        .progress-wrap {
+            margin: 12px 0 8px;
+            background: #e9edf2;
+            border-radius: 40px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #7c3aed;
+            border-radius: 40px;
+            transition: width 0.2s;
+            width: 0%;
+        }
+        .action-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 18px;
+        }
+        .result-box { text-align: center; padding: 20px 8px; }
+        .score-big { font-size: 3.5rem; font-weight: 700; color: #0f172a; line-height: 1.2; }
+        .score-sub { font-size: 1.2rem; color: #475569; }
+        .stat-grid {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin: 20px 0 16px;
+            flex-wrap: wrap;
+        }
+        .stat-item { text-align: center; }
+        .stat-num { font-size: 2rem; font-weight: 700; }
+        .stat-label { color: #64748b; font-size: 0.9rem; }
+        .review-item {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            margin: 8px 0;
+        }
+        .review-q { font-weight: 500; margin-bottom: 6px; }
+        .review-answer { font-size: 0.93rem; margin-top: 4px; line-height: 1.6; }
+        .review-correct { color: #16a34a; font-weight: 600; }
+        .review-wrong { color: #dc2626; }
+        .hidden { display: none !important; }
+        .tag {
+            background: #ede9fe;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-size: 0.78rem;
+            color: #6d28d9;
+            font-weight: 500;
+        }
+        @media (max-width: 600px) {
+            #app { padding: 16px 12px; }
+            h1 { font-size: 1.5rem; }
+            .q-text { font-size: 1.05rem; }
+            .option-btn { padding: 12px 14px; font-size: 0.93rem; }
+            .flex-row { gap: 8px; }
+            select, button { min-height: 44px; font-size: 0.92rem; padding: 8px 14px; }
+            .stat-grid { gap: 16px; }
+            .score-big { font-size: 2.6rem; }
+            .stat-num { font-size: 1.6rem; }
+        }
+        @media (max-width: 400px) {
+            .filter-row { flex-direction: column; align-items: stretch; }
+        }
+        .option-btn, button, select { touch-action: manipulation; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <header>
+        <h1>⚖️ اختبار كاتب الضبط</h1>
+        <div class="subhead">QCM متعدد الأجوبة — القانون الجنائي، التنظيم القضائي، الإجراءات، الالتزامات</div>
+    </header>
+
+    <main id="mainApp">
+        <!-- HOME / CONFIG -->
+        <div id="homeView">
+            <div class="filter-group">
+                <div class="filter-row">
+                    <span class="filter-label">المحور</span>
+                    <select id="axisFilter">
+                        <option value="all">الكل</option>
+                    </select>
+                    <span class="filter-label">الصعوبة</span>
+                    <select id="difficultyFilter">
+                        <option value="all">الكل</option>
+                        <option value="easy">سهل</option>
+                        <option value="medium">متوسط</option>
+                        <option value="hard">صعب</option>
+                    </select>
+                    <span class="filter-label">عدد الأسئلة</span>
+                    <select id="countFilter">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="all">جميع الأسئلة</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex-row" style="justify-content:center; gap:16px;">
+                <button id="startPracticeBtn" class="btn-success" style="min-width:130px;">📝 تدريب</button>
+                <button id="startExamBtn" style="min-width:130px;">🎯 محاكاة المسابقة</button>
+            </div>
+            <div style="margin-top:14px; text-align:center; padding:12px; background:#fef3c7; border-radius:16px; color:#92400e; font-size:0.9rem;">
+                ⚠️ <strong>تنبيه:</strong> كل سؤال قد يحتوي على إجابة واحدة أو أكثر. اختر جميع الإجابات الصحيحة ثم اضغط "تحقق".
+            </div>
+            <div style="margin-top:14px; text-align:center; color:#64748b; font-size:0.88rem;">
+                ⚡ <strong id="totalQuestionCount">0</strong> سؤالاً QCM متعدد الأجوبة
+            </div>
+        </div>
+
+        <!-- QUIZ VIEW -->
+        <div id="quizView" class="hidden">
+            <div class="flex-row" style="justify-content:space-between;">
+                <span id="qCounter" style="font-weight:600;">السؤال 1 من 20</span>
+                <span id="qSubjectBadge" class="badge">كاتب الضبط</span>
+            </div>
+            <div class="progress-wrap"><div id="progressFill" class="progress-fill" style="width:0%;"></div></div>
+            <div class="question-card">
+                <div class="q-header">
+                    <span id="qAxisLabel" class="tag">المحور</span>
+                    <span id="qMultiBadge" class="multi-badge">✔ قد يكون متعدد الأجوبة</span>
+                    <span id="qDifficultyLabel" style="font-size:0.78rem; background:#e9edf2; padding:0 12px; border-radius:30px;">متوسط</span>
+                </div>
+                <div id="qText" class="q-text">سؤال</div>
+                <div class="q-hint">🔍 اختر الإجابة أو الإجابات الصحيحة، ثم اضغط تحقق</div>
+                <div id="optionsContainer" class="options-grid"></div>
+                <div id="feedbackContainer" class="hidden"></div>
+            </div>
+            <div class="action-bar">
+                <button id="verifyBtn" class="btn-verify">✅ تحقق</button>
+            </div>
+            <div class="action-bar">
+                <button id="prevBtn" class="btn-secondary">◀ السابق</button>
+                <button id="nextBtn" style="min-width:120px;">التالي ▶</button>
+                <button id="quitBtn" class="btn-outline">إنهاء</button>
+            </div>
+        </div>
+
+        <!-- RESULT VIEW -->
+        <div id="resultView" class="hidden">
+            <div class="result-box">
+                <div class="score-big" id="finalScore">0/0</div>
+                <div class="score-sub" id="finalPercent">0%</div>
+                <div class="stat-grid">
+                    <div class="stat-item"><div class="stat-num" style="color:#16a34a;" id="correctCount">0</div><div class="stat-label">صحيح</div></div>
+                    <div class="stat-item"><div class="stat-num" style="color:#dc2626;" id="wrongCount">0</div><div class="stat-label">خاطئ</div></div>
+                    <div class="stat-item"><div class="stat-num" style="color:#64748b;" id="unansweredCount">0</div><div class="stat-label">لم يجب</div></div>
+                </div>
+                <div id="performanceMsg" style="font-size:1.05rem; margin:12px 0; background:#f1f5f9; border-radius:40px; padding:10px 18px;">أداء ممتاز</div>
+                <div class="flex-row" style="justify-content:center; gap:12px; margin-top:8px;">
+                    <button id="reviewMistakesBtn" class="btn-outline">📖 مراجعة الأخطاء</button>
+                    <button id="retryBtn" class="btn-success">🔄 إعادة الاختبار</button>
+                    <button id="homeBtn" class="btn-secondary">🏠 الرئيسية</button>
+                </div>
+            </div>
+            <div id="reviewContainer" class="hidden" style="margin-top:18px;"></div>
+        </div>
+    </main>
+</div>
+
+<script>
+// ============================================================
+//  QUESTION DATABASE — كاتب الضبط (QCM متعدد الأجوبة)
+//  correct: array of indices of correct options (1 or more)
+// ============================================================
+const questions = [
+    // ═══════════════ القانون الجنائي (20) ═══════════════
+    { id:'C001', axis:'القانون الجنائي', difficulty:'easy',
+      question:'ما هي أركان الجريمة في القانون الجنائي؟',
+      options:['الركن الشرعي (النص القانوني)','الركن المادي','الركن المعنوي','الركن الإداري'],
+      correct:[0,1,2],
+      explanation:'أركان الجريمة ثلاثة: الركن الشرعي، والركن المادي، والركن المعنوي. الركن الإداري ليس من أركان الجريمة.' },
+
+    { id:'C002', axis:'القانون الجنائي', difficulty:'medium',
+      question:'ما هي عناصر الركن المادي للجريمة؟',
+      options:['الفعل أو السلوك','النتيجة الإجرامية','علاقة السببية','القصد الجنائي'],
+      correct:[0,1,2],
+      explanation:'الركن المادي يتكون من الفعل والنتيجة والعلاقة السببية بينهما. القصد الجنائي هو ركن معنوي وليس مادياً.' },
+
+    { id:'C003', axis:'القانون الجنائي', difficulty:'medium',
+      question:'ما هي أسباب الإباحة في القانون الجنائي؟',
+      options:['الدفاع الشرعي','حالة الضرورة','تنفيذ الأمر القانوني','الغضب الشديد'],
+      correct:[0,1,2],
+      explanation:'أسباب الإباحة تشمل: الدفاع الشرعي، حالة الضرورة، تنفيذ الأمر القانوني. أما الغضب الشديد فهو ظرف مخفف وليس سبب إباحة.' },
+
+    { id:'C004', axis:'القانون الجنائي', difficulty:'easy',
+      question:'ما هي أنواع الشروع في الجريمة؟',
+      options:['الشروع التام','الشروع الناقص','الشروع المستحيل','الشروع المؤقت'],
+      correct:[0,1,2],
+      explanation:'الشروع ينقسم إلى: تام (استوفى كل الأفعال دون النتيجة)، ناقص (خاب لسبب خارجي)، مستحيل (الفعل غير قابل للتحقيق).' },
+
+    { id:'C005', axis:'القانون الجنائي', difficulty:'medium',
+      question:'متى ينتفي القصد الجنائي؟',
+      options:['في حالة الخطأ غير المقصود','في حالة الإكراه الملجئ','في حالة الجنون','في حالة الغضب'],
+      correct:[0,1,2],
+      explanation:'ينتفي القصد في الخطأ والإكراه الملجئ والجنون. أما الغضب فلا ينتفي به القصد، بل قد يخفف العقوبة.' },
+
+    { id:'C006', axis:'القانون الجنائي', difficulty:'medium',
+      question:'ما هي صور المساهمة الجنائية؟',
+      options:['الفاعل الأصلي','الشريك','المحرض','المتدخل العرضي'],
+      correct:[0,1,2],
+      explanation:'المساهمة الجنائية تشمل: الفاعل الأصلي، الشريك، والمحرض. أما التدخل العرضي فهو سلوك بلا مساهمة إجرامية.' },
+
+    { id:'C007', axis:'القانون الجنائي', difficulty:'hard',
+      question:'ما هي شروط الدفاع الشرعي؟',
+      options:['وجود اعتداء غير مشروع وحالي','ضرورة الدفاع لدرء الاعتداء','التناسب بين الدفاع والاعتداء','موافقة الجاني على الدفاع'],
+      correct:[0,1,2],
+      explanation:'شروط الدفاع الشرعي: اعتداء غير مشروع وحالي، ضرورة الدفاع، التناسب. لا يُشترط موافقة الجاني.' },
+
+    { id:'C008', axis:'القانون الجنائي', difficulty:'hard',
+      question:'ما هي أسباب انقضاء الدعوى العمومية؟',
+      options:['وفاة المتهم','التقادم','العفو العام','تنازل المجني عليه عن الحق المدني'],
+      correct:[0,1,2],
+      explanation:'أسباب الانقضاء: وفاة المتهم، التقادم، العفو العام. أما تنازل المجني عليه عن الحق المدني فلا يسقط الدعوى العمومية.' },
+
+    { id:'C009', axis:'القانون الجنائي', difficulty:'medium',
+      question:'ما هي خصائص القاعدة الجنائية؟',
+      options:['الشرعية','الإلزام','العلم بها','التفسير الموسع لصالح المتهم'],
+      correct:[0,1,2],
+      explanation:'القاعدة الجنائية تتميز بالشرعية والإلزام والعلم بها. لا يجوز التفسير الموسع لصالح المتهم، بل التفسير الضيق.' },
+
+    { id:'C010', axis:'القانون الجنائي', difficulty:'hard',
+      question:'ما هي الظروف المشددة للجريمة؟',
+      options:['صفة الجاني (كأن يكون موظفاً)','استعمال السلاح','سبق الإصرار والترصد','صغر سن الجاني'],
+      correct:[0,1,2],
+      explanation:'من الظروف المشددة: صفة الجاني، استعمال السلاح، سبق الإصرار. أما صغر السن فظرف مخفف.' },
+
+    { id:'C011', axis:'القانون الجنائي', difficulty:'medium',
+      question:'ما هي الظروف المخففة للعقوبة؟',
+      options:['صغر سن الجاني','حسن السيرة','الاعتراف بالجريمة','العودة إلى الجريمة'],
+      correct:[0,1,2],
+      explanation:'الظروف المخففة تشمل: صغر السن، حسن السيرة، الاعتراف. أما العودة إلى الجريمة فظرف مشدد.' },
+
+    { id:'C012', axis:'القانون الجنائي', difficulty:'hard',
+      question:'متى تكون المسؤولية الجنائية شخصية؟',
+      options:['تقتصر على من ارتكب الجريمة','لا تمتد للورثة','تشمل من حرض وساعد','تمتد للأسرة'],
+      correct:[0,1,2],
+      explanation:'المسؤولية الجنائية شخصية: تقتصر على الفاعل، المحرض، والمتدخل. لا تمتد إلى الورثة ولا إلى الأسرة.' },
+
+    { id:'C013', axis:'القانون الجنائي', difficulty:'medium',
+      question:'ما هي أنواع الجرائم من حيث الجسامة؟',
+      options:['الجنايات','الجنح','المخالفات','التجاوزات الإدارية'],
+      correct:[0,1,2],
+      explanation:'الجرائم تنقسم إلى: جنايات، جنح، مخالفات. التجاوزات الإدارية ليست تصنيفاً جنائياً.' },
+
+    { id:'C014', axis:'القانون الجنائي', difficulty:'hard',
+      question:'ما هي عناصر القصد الجنائي؟',
+      options:['العلم بعناصر الجريمة','الإرادة المتجهة لارتكاب الفعل','النية في تحقيق النتيجة','الجهل بالقانون'],
+      correct:[0,1,2],
+      explanation:'القصد الجنائي يتكون من: العلم والإرادة والنية. الجهل بالقانون ليس عذراً ولا عنصراً.' },
+
+    { id:'C015', axis:'القانون الجنائي', difficulty:'medium',
+      question:'ما هي أنواع العقوبات في القانون الجنائي؟',
+      options:['العقوبات الأصلية','العقوبات التبعية','العقوبات التكميلية','العقوبات الإدارية'],
+      correct:[0,1,2],
+      explanation:'العقوبات تنقسم إلى: أصلية، تبعية، تكميلية. العقوبات الإدارية تخص القانون الإداري.' },
+
+    { id:'C016', axis:'القانون الجنائي', difficulty:'hard',
+      question:'ما هي موانع المسؤولية الجنائية؟',
+      options:['الجنون','الإكراه','صغر السن','الفقر'],
+      correct:[0,1,2],
+      explanation:'موانع المسؤولية الجنائية: الجنون، الإكراه، صغر السن. الفقر ليس مانعاً للمسؤولية.' },
+
+    { id:'C017', axis:'القانون الجنائي', difficulty:'medium',
+      question:'ما الفرق بين الجريمة العمدية والجريمة غير العمدية؟',
+      options:['العمدية تتطلب قصداً جنائياً','غير العمدية تقوم على الخطأ','العمدية أشد عقوبة','غير العمدية لا تعاقب عليها أبداً'],
+      correct:[0,1,2],
+      explanation:'الجريمة العمدية تتطلب قصداً وتكون أشد، أما غير العمدية فتقوم على الخطأ وتكون أخف. غير العمدية قد يعاقب عليها إذا نص القانون.' },
+
+    { id:'C018', axis:'القانون الجنائي', difficulty:'hard',
+      question:'ما هي شروط الشروع في الجريمة؟',
+      options:['وجود نية إجرامية','بدء التنفيذ','عدم تحقق النتيجة','توبة الجاني'],
+      correct:[0,1,2],
+      explanation:'الشروع يتطلب: نية + بدء تنفيذ + عدم تحقق النتيجة. التوبة قد تؤدي إلى إعفاء أو تخفيف وليست شرطاً.' },
+
+    { id:'C019', axis:'القانون الجنائي', difficulty:'medium',
+      question:'ما هي خصائص الجريمة المستحيلة؟',
+      options:['فعل غير قابل لتحقيق النتيجة','عدم وجود خطر حقيقي','قد يعاقب عليها القانون','توبة الجاني'],
+      correct:[0,1,2],
+      explanation:'الجريمة المستحيلة: فعل غير قابل للتحقيق، لا خطر، وقد يعاقب عليها القانون. التوبة ليست من خصائصها.' },
+
+    { id:'C020', axis:'القانون الجنائي', difficulty:'hard',
+      question:'ما هي أسباب انعدام الجريمة (لا جريمة بدون...):',
+      options:['نص قانوني','فعل مادي','قصد جنائي','شكوى الضحية'],
+      correct:[0,1,2],
+      explanation:'لا جريمة بدون نص وفعل مادي وقصد جنائي. شكوى الضحية قد تكون شرطاً للإجراء وليست ركناً للجريمة.' },
+
+    // ═══════════════ التنظيم القضائي (20) ═══════════════
+    { id:'T001', axis:'التنظيم القضائي', difficulty:'easy',
+      question:'ما هي درجات التقاضي في النظام القضائي؟',
+      options:['الدرجة الأولى (ابتدائي)','الدرجة الثانية (استئناف)','الدرجة الثالثة (نقض)','درجة التحكيم'],
+      correct:[0,1,2],
+      explanation:'درجات التقاضي ثلاث: ابتدائي، استئناف، نقض. التحكيم ليس درجة قضائية بل طريق بديل.' },
+
+    { id:'T002', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هي اختصاصات المحكمة العليا؟',
+      options:['مراقبة تطبيق القانون','توحيد الاجتهاد القضائي','الطعن بالنقض','الفصل في الوقائع'],
+      correct:[0,1,2],
+      explanation:'المحكمة العليا: تراقب القانون وتوحد الاجتهاد وتنظر النقض. لا تفصل في الوقائع (تلك مهمة محاكم الموضوع).' },
+
+    { id:'T003', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هي اختصاصات محكمة الاستئناف؟',
+      options:['إعادة النظر في الوقائع والقانون','الفصل نهائياً','نظر الطعون ضد أحكام الدرجة الأولى','مراقبة تطبيق القانون فقط'],
+      correct:[0,2],
+      explanation:'الاستئناف ينظر الطعون ضد أحكام الدرجة الأولى ويعيد النظر في الوقائع والقانون. لا فصل نهائي (قد يُطعن بالنقض) ولا مراقبة قانون فقط.' },
+
+    { id:'T004', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هي أنواع الاختصاص القضائي؟',
+      options:['الاختصاص النوعي','الاختصاص الإقليمي','الاختصاص الزمني','الاختصاص المالي'],
+      correct:[0,1],
+      explanation:'الاختصاص نوعي (نوع القضية) وإقليمي (المكان). الزمني والمالي ليسا تصنيفين مستقلين للاختصاص.' },
+
+    { id:'T005', axis:'التنظيم القضائي', difficulty:'hard',
+      question:'ما هي شروط اختصاص المحكمة؟',
+      options:['أن تكون مختصة نوعياً','أن تكون مختصة إقليمياً','أن تكون مختصة زمانياً','أن يوافق الخصم'],
+      correct:[0,1,2],
+      explanation:'الاختصاص يشترط: نوعي، إقليمي، وزماني. موافقة الخصم لا تمنح اختصاصاً لمحكمة غير مختصة.' },
+
+    { id:'T006', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هو دور النيابة العامة؟',
+      options:['الدفاع عن المجتمع','إقامة الدعوى العمومية','تمثيل المتهم','مراقبة تطبيق القانون'],
+      correct:[0,1],
+      explanation:'النيابة العامة تمثل المجتمع وتقيم الدعوى العمومية. لا تمثل المتهم (المحامي يقوم بذلك) ولا تراقب القانون (المحكمة تفعل).' },
+
+    { id:'T007', axis:'التنظيم القضائي', difficulty:'easy',
+      question:'من هم أعوان القضاء؟',
+      options:['القضاة','كتاب الضبط','المحامون','الشرطة'],
+      correct:[0,1,2],
+      explanation:'أعوان القضاء: القضاة، كتاب الضبط، المحامون. الشرطة سلطة تنفيذية وليست من أعوان القضاء بالمعنى الدقيق.' },
+
+    { id:'T008', axis:'التنظيم القضائي', difficulty:'hard',
+      question:'ما هي اختصاصات كاتب الضبط الرئيسي؟',
+      options:['تحرير محاضر الجلسات','حفظ الوثائق والسجلات','التبليغ والإشعار','إصدار الأحكام'],
+      correct:[0,1,2],
+      explanation:'كاتب الضبط: يحرر المحاضر، يحفظ الوثائق، يبلغ الإشعارات. لا يصدر الأحكام (ذلك من اختصاص القاضي).' },
+
+    { id:'T009', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هي أقسام كتابة الضبط؟',
+      options:['كتابة ضبط الجلسات','كتابة ضبط الحفظ','كتابة ضبط التبليغ','كتابة ضبط التحقيق'],
+      correct:[0,1,2],
+      explanation:'أقسام كتابة الضبط: الجلسات، الحفظ، التبليغ. التحقيق من اختصاص قاضي التحقيق وليس كتابة الضبط.' },
+
+    { id:'T010', axis:'التنظيم القضائي', difficulty:'hard',
+      question:'ما هي واجبات كاتب الضبط؟',
+      options:['الأمانة في التوثيق','السر المهني','الحياد','إصدار القرارات'],
+      correct:[0,1,2],
+      explanation:'واجبات كاتب الضبط: الأمانة، السر المهني، الحياد. إصدار القرارات ليس من مهامه.' },
+
+    { id:'T011', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هي الجهات القضائية في موريتانيا؟',
+      options:['المحاكم الابتدائية','محاكم الاستئناف','المحكمة العليا','المجالس العسكرية'],
+      correct:[0,1,2],
+      explanation:'الجهات القضائية: محاكم ابتدائية، استئناف، محكمة عليا. المجالس العسكرية جهات استثنائية وليست من التنظيم العادي.' },
+
+    { id:'T012', axis:'التنظيم القضائي', difficulty:'hard',
+      question:'ما هو مبدأ استقلالية القضاء؟',
+      options:['القضاة مستقلون عن السلطة التنفيذية','القضاة مستقلون عن السلطة التشريعية','القضاة لا يتلقون أوامر في أحكامهم','القضاة يعينهم وزير العدل'],
+      correct:[0,1,2],
+      explanation:'استقلال القضاء يعني عدم تلقي الأوامر من السلطتين التنفيذية والتشريعية. التعيين قد يكون إدارياً لكن ممارسة القضاء مستقلة.' },
+
+    { id:'T013', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هو دور المحكمة الابتدائية؟',
+      options:['نظر الدعاوى لأول مرة','الفصل في النزاعات المدنية','الفصل في الجنح','مراقبة تطبيق القانون'],
+      correct:[0,1,2],
+      explanation:'المحكمة الابتدائية تنظر لأول مرة في القضايا المدنية والجنحية. مراقبة القانون من اختصاص المحكمة العليا.' },
+
+    { id:'T014', axis:'التنظيم القضائي', difficulty:'hard',
+      question:'ما هي اختصاصات محكمة الاستئناف؟',
+      options:['الفصل في الطعون ضد الأحكام الابتدائية','إعادة النظر في الوقائع','مراقبة تطبيق القانون','إصدار أحكام نهائية لا تُطعن'],
+      correct:[0,1],
+      explanation:'الاستئناف يفصل في الطعون ويعيد النظر في الوقائع والقانون. لكن أحكامها قابلة للطعن بالنقض.' },
+
+    { id:'T015', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هو دور رئيس المحكمة؟',
+      options:['إدارة شؤون المحكمة','توزيع القضايا','الإشراف على كتاب الضبط','إصدار الأحكام بصفة شخصية'],
+      correct:[0,1,2],
+      explanation:'رئيس المحكمة يدير ويوزع ويشرف. إصدار الأحكام يخص كل قاضٍ على حدة وليس لرئيس المحكمة بصفته الإدارية.' },
+
+    { id:'T016', axis:'التنظيم القضائي', difficulty:'easy',
+      question:'ما هو دور كتابة الضبط في الجلسة؟',
+      options:['تحرير محضر الجلسة','تسجيل الأقوال والطلبات','تنظيم الجلسة','إصدار الحكم'],
+      correct:[0,1],
+      explanation:'كتابة الضبط تحرر المحضر وتسجل الأقوال. تنظيم الجلسة للقاضي وإصدار الحكم للقاضي.' },
+
+    { id:'T017', axis:'التنظيم القضائي', difficulty:'hard',
+      question:'ما هي شروط تولي وظيفة كاتب الضبط؟',
+      options:['الأهلية القانونية','الكفاءة المهنية','المؤهل الدراسي','الانتماء السياسي'],
+      correct:[0,1,2],
+      explanation:'شروط تولي كاتب الضبط: الأهلية، الكفاءة، المؤهل. الانتماء السياسي ليس شرطاً بل ممنوعاً.' },
+
+    { id:'T018', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هو دور وكيل الجمهورية؟',
+      options:['رئاسة النيابة العامة','توجيه الاتهام','تمثيل المجتمع','الدفاع عن المتهم'],
+      correct:[0,1,2],
+      explanation:'وكيل الجمهورية يرأس النيابة ويوجه الاتهام ويمثل المجتمع. لا يدافع عن المتهم (المحامي يقوم بذلك).' },
+
+    { id:'T019', axis:'التنظيم القضائي', difficulty:'hard',
+      question:'ما هي مهام المحكمة العليا في موريتانيا؟',
+      options:['مراقبة تطبيق القانون','الطعن بالنقض','توحيد الاجتهاد','إعادة النظر في الوقائع'],
+      correct:[0,1,2],
+      explanation:'مهام المحكمة العليا: مراقبة القانون، الطعن بالنقض، توحيد الاجتهاد. لا تعيد النظر في الوقائع.' },
+
+    { id:'T020', axis:'التنظيم القضائي', difficulty:'medium',
+      question:'ما هي معايير التمييز بين المحاكم؟',
+      options:['الاختصاص النوعي','الاختصاص الإقليمي','درجة التقاضي','الاختصاص الشخصي'],
+      correct:[0,1,2],
+      explanation:'معايير التمييز: نوعي، إقليمي، درجة التقاضي. الاختصاص الشخصي ليس تصنيفاً مستقلاً.' },
+
+    // ═══════════════ قانون الإجراءات المدنية (20) ═══════════════
+    { id:'P001', axis:'قانون الإجراءات المدنية', difficulty:'easy',
+      question:'ما هي شروط قبول الدعوى المدنية؟',
+      options:['الصفة','المصلحة','الأهلية','موافقة المدعى عليه'],
+      correct:[0,1,2],
+      explanation:'شروط قبول الدعوى: الصفة، المصلحة، الأهلية. موافقة المدعى عليه ليست شرطاً لقبول الدعوى.' },
+
+    { id:'P002', axis:'قانون الإجراءات المدنية', difficulty:'medium',
+      question:'ما هي أنواع الدفوع؟',
+      options:['دفوع شكلية','دفوع موضوعية','دفوع إجرائية','دفوع إدارية'],
+      correct:[0,1],
+      explanation:'الدفوع نوعان: شكلية (إجرائية) وموضوعية. الإدارية ليست نوعاً من الدفوع.' },
+
+    { id:'P003', axis:'قانون الإجراءات المدنية', difficulty:'medium',
+      question:'ما هي طرق الطعن في الأحكام؟',
+      options:['الاستئناف','المعارضة','الطعن بالنقض','التظلم الإداري'],
+      correct:[0,1,2],
+      explanation:'طرق الطعن: استئناف، معارضة، نقض. التظلم الإداري يتعلق بالقرارات الإدارية.' },
+
+    { id:'P004', axis:'قانون الإجراءات المدنية', difficulty:'hard',
+      question:'ما هي شروط الاستئناف؟',
+      options:['تقديم الطعن داخل الأجل','أن يكون الحكم قابلاً للاستئناف','إيداع عريضة الاستئناف','موافقة الخصم'],
+      correct:[0,1,2],
+      explanation:'شروط الاستئناف: الأجل، القابلية للاستئناف، إيداع العريضة. موافقة الخصم لا تشترط.' },
+
+    { id:'P005', axis:'قانون الإجراءات المدنية', difficulty:'easy',
+      question:'ما هو الفرق بين الاستئناف والمعارضة؟',
+      options:['الاستئناف ضد الحكم الحضوري','المعارضة ضد الحكم الغيابي','الاستئناف ينظر بالدرجة الثانية','المعارضة ينظرها نفس القاضي'],
+      correct:[0,1,3],
+      explanation:'الاستئناف ينظر بالدرجة الثانية، المعارضة ضد الحكم الغيابي وينظرها نفس القاضي. الاستئناف ليس ضد الحكم الحضوري فقط.' },
+
+    { id:'P006', axis:'قانون الإجراءات المدنية', difficulty:'hard',
+      question:'ما هي شروط قبول الطعن بالنقض؟',
+      options:['تقديم داخل الأجل','أن يكون الحكم نهائياً','وجود أسباب قانونية','إعادة طرح الوقائع'],
+      correct:[0,1,2],
+      explanation:'شروط النقض: الأجل، النهائية، أسباب قانونية. لا يعاد طرح الوقائع.' },
+
+    { id:'P007', axis:'قانون الإجراءات المدنية', difficulty:'medium',
+      question:'ما هي أنواع الإثبات في القانون المدني؟',
+      options:['الإثبات الكتابي','الإثبات بالشهود','الإثبات بالقرائن','الإثبات بالحلف الإداري'],
+      correct:[0,1,2],
+      explanation:'أنواع الإثبات: كتابي، شهود، قرائن. الحلف الإداري ليس من طرق الإثبات المدنية.' },
+
+    { id:'P008', axis:'قانون الإجراءات المدنية', difficulty:'hard',
+      question:'ما هي حالات انقضاء الخصومة؟',
+      options:['التنازل عن الدعوى','الصلح','التقادم','تغيير القاضي'],
+      correct:[0,1,2],
+      explanation:'انقضاء الخصومة: تنازل، صلح، تقادم. تغيير القاضي لا ينقضي الخصومة.' },
+
+    { id:'P009', axis:'قانون الإجراءات المدنية', difficulty:'medium',
+      question:'ما هي أنواع الأحكام القضائية؟',
+      options:['أحكام إعدادية','أحكام تمهيدية','أحكام نهائية','أحكام إدارية'],
+      correct:[0,1,2],
+      explanation:'أنواع الأحكام: إعدادية، تمهيدية، نهائية. الإدارية تصنيف حسب طبيعة القضاء لا نوع الحكم.' },
+
+    { id:'P010', axis:'قانون الإجراءات المدنية', difficulty:'hard',
+      question:'ما هو أثر حجية الشيء المقضي فيه؟',
+      options:['يمنع إعادة طرح نفس النزاع','يمنع الطعن في الحكم','يلزم الأطراف','يلزم القضاة الآخرين'],
+      correct:[0,2],
+      explanation:'حجية الشيء المقضي: تمنع إعادة طرح النزاع وتلزم الأطراف. لا تمنع الطعن بالطرق القانونية ولا تلزم قضاة نزاعات أخرى.' },
+
+    { id:'P011', axis:'قانون الإجراءات المدنية', difficulty:'medium',
+      question:'ما هي شروط تبليغ الاستدعاء؟',
+      options:['أن يكون مكتوباً','أن يتضمن بيانات كافية','أن يبلغ في أجل معقول','أن يوافق المستدعى عليه'],
+      correct:[0,1,2],
+      explanation:'شروط التبليغ: الكتابة، البيانات الكافية، الأجل المعقول. الموافقة لا تُشترط.' },
+
+    { id:'P012', axis:'قانون الإجراءات المدنية', difficulty:'hard',
+      question:'ما هي حالات بطلان الإجراءات؟',
+      options:['عدم تبليغ الخصم','عدم اتباع الشكل المقرر','انعدام الاختصاص','بطء الإجراء'],
+      correct:[0,1,2],
+      explanation:'البطلان: عدم التبليغ، عدم الشكل، انعدام الاختصاص. البطء ليس سبباً للبطلان.' },
+
+    { id:'P013', axis:'قانون الإجراءات المدنية', difficulty:'medium',
+      question:'ما هي اختصاصات قاضي التنفيذ؟',
+      options:['الفصل في منازعات التنفيذ','الأمر بالحجز','الفصل في موضوع الدعوى','التظلم من إجراءات التنفيذ'],
+      correct:[0,1,3],
+      explanation:'قاضي التنفيذ: ينظر منازعات التنفيذ، يأمر بالحجز، ينظر التظلمات. لا يفصل في موضوع الدعوى.' },
+
+    { id:'P014', axis:'قانون الإجراءات المدنية', difficulty:'hard',
+      question:'ما هي شروط الأمر بالأداء؟',
+      options:['وجود دين ثابت','أن يكون الدين حالاً','أن يكون الدين غير متنازع فيه','أن يوافق المدعى عليه'],
+      correct:[0,1,2],
+      explanation:'شروط الأمر بالأداء: دين ثابت، حال، غير متنازع. الموافقة لا تُشترط.' },
+
+    { id:'P015', axis:'قانون الإجراءات المدنية', difficulty:'medium',
+      question:'ما هي مكونات الحكم القضائي؟',
+      options:['الديباجة','الأسباب','المنطوق','الخاتمة'],
+      correct:[0,1,2],
+      explanation:'الحكم القضائي يتكون من: الديباجة، الأسباب، المنطوق. الخاتمة ليست عنصراً مستقلاً.' },
+
+    { id:'P016', axis:'قانون الإجراءات المدنية', difficulty:'hard',
+      question:'ما هي شروط تنفيذ الأحكام؟',
+      options:['أن يكون الحكم نهائياً أو مشمولاً بالتنفيذ المؤقت','أن يكون مبلَّغاً','أن يكون منطوقه واضحاً','أن يوافق المحكوم عليه'],
+      correct:[0,1,2],
+      explanation:'شروط التنفيذ: النهائية أو التنفيذ المؤقت، التبليغ، وضوح المنطوق. الموافقة لا تُشترط.' },
+
+    { id:'P017', axis:'قانون الإجراءات المدنية', difficulty:'medium',
+      question:'ما هي أنواع الحجوز؟',
+      options:['الحجز التحفظي','الحجز التنفيذي','الحجز لدى الغير','الحجز الإداري'],
+      correct:[0,1,2],
+      explanation:'أنواع الحجوز: تحفظي، تنفيذي، لدى الغير. الحجز الإداري تصنيف مختلف.' },
+
+    { id:'P018', axis:'قانون الإجراءات المدنية', difficulty:'hard',
+      question:'ما هي شروط الحجز التحفظي؟',
+      options:['وجود دين ثابت في أصله','الخشية من هروب المدين بأمواله','إذن القاضي','موافقة المدين'],
+      correct:[0,1,2],
+      explanation:'شروط الحجز التحفظي: دين ثابت، خشية الهروب، إذن القاضي. موافقة المدين لا تُشترط بل هي سبب عدم الحجز.' },
+
+    { id:'P019', axis:'قانون الإجراءات المدنية', difficulty:'medium',
+      question:'ما هي أنواع الدفوع الشكلية؟',
+      options:['عدم الاختصاص','انعدام الصفة','بطلان الإجراء','إنكار الدين'],
+      correct:[0,1,2],
+      explanation:'الدفوع الشكلية: عدم الاختصاص، انعدام الصفة، بطلان الإجراء. إنكار الدين دفع موضوعي.' },
+
+    { id:'P020', axis:'قانون الإجراءات المدنية', difficulty:'hard',
+      question:'ما هي شروط قبول التدخل في الدعوى؟',
+      options:['وجود مصلحة','أن يكون التدخل في مرحلة معينة','أن لا يعطل الدعوى','أن يوافق الأطراف الأصليون'],
+      correct:[0,1,2],
+      explanation:'شروط التدخل: مصلحة، مرحلة معينة، عدم التعطيل. الموافقة لا تُشترط.' },
+
+    // ═══════════════ قانون الالتزامات والعقود (20) ═══════════════
+    { id:'O001', axis:'قانون الالتزامات والعقود', difficulty:'easy',
+      question:'ما هي أركان العقد؟',
+      options:['الرضا','المحل','السبب','الشكل'],
+      correct:[0,1,2],
+      explanation:'أركان العقد: الرضا، المحل، السبب. الشكل شرط صحة في بعض العقود فقط وليس ركناً عاماً.' },
+
+    { id:'O002', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي عيوب الرضا؟',
+      options:['الغلط','التدليس','الإكراه','الإهمال'],
+      correct:[0,1,2],
+      explanation:'عيوب الرضا: الغلط، التدليس، الإكراه. الإهمال ليس عيباً من عيوب الرضا.' },
+
+    { id:'O003', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي حالات البطلان المطلق للعقد؟',
+      options:['انعدام الرضا','انعدام المحل','المخالفة للنظام العام','التدليس'],
+      correct:[0,1,2],
+      explanation:'البطلان المطلق: انعدام الرضا أو المحل، أو مخالفة النظام العام. التدليس يؤدي إلى الإبطال لا البطلان المطلق.' },
+
+    { id:'O004', axis:'قانون الالتزامات والعقود', difficulty:'hard',
+      question:'ما هي شروط الغلط المؤثر في العقد؟',
+      options:['أن يكون جوهرياً','أن يكون في صفة جوهرية','أن يكون في شخص المتعاقد إذا كانت اعتباراته محل تعاقد','أن يكون في قيمة الشيء فقط'],
+      correct:[0,1,2],
+      explanation:'الغلط المؤثر: جوهري، في صفة جوهرية، أو في شخص المتعاقد إذا كانت اعتباراته محل تعاقد. الغلط في القيمة لا يؤثر.' },
+
+    { id:'O005', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي مصادر الالتزام الإرادية؟',
+      options:['العقد','الإرادة المنفردة','الفعل الضار','شبه العقد'],
+      correct:[0,1],
+      explanation:'المصادر الإرادية: العقد، الإرادة المنفردة. الفعل الضار وشبه العقد من مصادر غير إرادية.' },
+
+    { id:'O006', axis:'قانون الالتزامات والعقود', difficulty:'hard',
+      question:'ما هي شروط الفسخ القضائي للعقد؟',
+      options:['إخلال أحد الطرفين بالتزامه','أن يكون الإخلال جوهرياً','إنذار الطرف المخل','موافقة الطرف المخل'],
+      correct:[0,1,2],
+      explanation:'الفسخ القضائي: إخلال جوهري، إنذار. موافقة المخل لا تُشترط بل هي ضد الفسخ.' },
+
+    { id:'O007', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي أنواع الضرر في المسؤولية المدنية؟',
+      options:['الضرر المادي','الضرر الأدبي','الضرر الجسدي','الضرر الإداري'],
+      correct:[0,1,2],
+      explanation:'أنواع الضرر: مادي، أدبي (معنوي)، جسدي. الضرر الإداري تصنيف مختلف.' },
+
+    { id:'O008', axis:'قانون الالتزامات والعقود', difficulty:'hard',
+      question:'ما هي شروط المسؤولية التقصيرية؟',
+      options:['وجود خطأ','وجود ضرر','علاقة سببية','وجود عقد مسبق'],
+      correct:[0,1,2],
+      explanation:'المسؤولية التقصيرية: خطأ + ضرر + علاقة سببية. لا تُشترط علاقة تعاقدية مسبقة.' },
+
+    { id:'O009', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي خصائص القوة القاهرة؟',
+      options:['أن تكون غير متوقعة','أن تكون غير قابلة للتغلب عليها','أن تكون خارجية','أن تكون من فعل المدين'],
+      correct:[0,1,2],
+      explanation:'القوة القاهرة: غير متوقعة، غير قابلة للتغلب، خارجية. الفعل الذاتي للمدين ليس قوة قاهرة.' },
+
+    { id:'O010', axis:'قانون الالتزامات والعقود', difficulty:'hard',
+      question:'ما هي حالات انقضاء الالتزام دون الوفاء؟',
+      options:['الإبراء','المقاصة','التقادم','التأجيل'],
+      correct:[0,1,2],
+      explanation:'انقضاء الالتزام: إبراء، مقاصة، تقادم. التأجيل لا ينقضي الالتزام بل يؤجله.' },
+
+    { id:'O011', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي شروط صحة الإبراء؟',
+      options:['أهلية الدائن','إرادة صريحة','قابلية الحق للإسقاط','موافقة المدين'],
+      correct:[0,1,2],
+      explanation:'شروط الإبراء: أهلية الدائن، إرادة صريحة، قابلية الحق. موافقة المدين لا تُشترط (الإبراء لا يضره).' },
+
+    { id:'O012', axis:'قانون الالتزامات والعقود', difficulty:'hard',
+      question:'ما هي شروط المقاصة؟',
+      options:['التساوي في الجنس والصفة','أن يكون الدينان حالين','التبادل بين شخصين بصفتهما نفسها','موافقة الطرفين'],
+      correct:[0,1,2],
+      explanation:'شروط المقاصة: تساوي الجنس والصفة، حالية الدين، التبادل بين الشخصين. موافقة الطرفين لا تُشترط.' },
+
+    { id:'O013', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي أنواع الالتزام من حيث المحل؟',
+      options:['التزام بإعطاء','التزام بعمل','التزام بالامتناع','التزام بالدفع الفوري'],
+      correct:[0,1,2],
+      explanation:'أنواع الالتزام: إعطاء، عمل، امتناع. الدفع الفوري تصنيف غير مستقل.' },
+
+    { id:'O014', axis:'قانون الالتزامات والعقود', difficulty:'hard',
+      question:'ما هي شروط الشرط الجزائي؟',
+      options:['أن يكون مكتوباً','أن يتفق عليه الطرفان','أن يكون محدد المقدار','موافقة القاضي'],
+      correct:[0,1,2],
+      explanation:'الشرط الجزائي: مكتوب، متفق عليه، محدد. موافقة القاضي لا تُشترط لكن يمكنه تخفيضه.' },
+
+    { id:'O015', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي آثار العقد؟',
+      options:['القوة الملزمة','حسن النية في التنفيذ','نقل الملكية','إلغاء القوانين'],
+      correct:[0,1,2],
+      explanation:'آثار العقد: القوة الملزمة، حسن النية، نقل الملكية (إذا كان ناقلاً). لا يلغي القوانين.' },
+
+    { id:'O016', axis:'قانون الالتزامات والعقود', difficulty:'hard',
+      question:'ما هي حالات التعويض في المسؤولية العقدية؟',
+      options:['الضرر المباشر المتوقع','الضرر غير المباشر غير المتوقع','الفوات','الأضرار المحتملة'],
+      correct:[0,2],
+      explanation:'التعويض العقدي: الضرر المباشر المتوقع والفوات. الضرر غير المتوقع والأضرار المحتملة لا تُعوَّض.' },
+
+    { id:'O017', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي شروط الأهلية في العقد؟',
+      options:['البلوغ','العقل','الرشد','الجنسية'],
+      correct:[0,1,2],
+      explanation:'شروط الأهلية: بلوغ، عقل، رشد. الجنسية ليست شرطاً للأهلية المدنية.' },
+
+    { id:'O018', axis:'قانون الالتزامات والعقود', difficulty:'hard',
+      question:'ما هي أسباب الإبطال في العقد؟',
+      options:['الغلط','التدليس','الإكراه','الغلاء'],
+      correct:[0,1,2],
+      explanation:'أسباب الإبطال: غلط، تدليس، إكراه. الغلاء ليس سبباً للإبطال (ما لم يكن تدليساً).' },
+
+    { id:'O019', axis:'قانون الالتزامات والعقود', difficulty:'medium',
+      question:'ما هي أنواع الوفاء؟',
+      options:['الوفاء الكامل','الوفاء الجزئي','الوفاء بمقابل','الوفاء بالإحالة'],
+      correct:[0,1],
+      explanation:'الوفاء: كامل أو جزئي. الوفاء بمقابل أو بالإحالة تصنيفات خاصة وليست أنواعاً أساسية.' },
+
+    { id:'O020', axis:'قانون الالتزامات والعقود', difficulty:'hard',
+      question:'ما هي شروط الدفع الجزائي؟',
+      options:['حصول الإخلال بالالتزام','وجود شرط جزائي','إثبات الضرر','إثبات القصد'],
+      correct:[0,1],
+      explanation:'الدفع الجزائي: يكفي حصول الإخلال ووجود الشرط. لا يُشترط إثبات الضرر أو القصد.' },
+
+    // ═══════════════ دور كاتب الضبط (20) ═══════════════
+    { id:'K001', axis:'دور كاتب الضبط', difficulty:'easy',
+      question:'ما هي مهام كاتب الضبط؟',
+      options:['تحرير المحاضر','حفظ الوثائق','تبليغ الأطراف','إصدار الأحكام'],
+      correct:[0,1,2],
+      explanation:'مهام كاتب الضبط: تحرير المحاضر، حفظ الوثائق، تبليغ الأطراف. إصدار الأحكام من اختصاص القاضي.' },
+
+    { id:'K002', axis:'دور كاتب الضبط', difficulty:'medium',
+      question:'ما هي وثائق كاتب الضبط؟',
+      options:['محضر الجلسة','سجل القضايا','ملفات القضايا','الأحكام القضائية (تحريرها)'],
+      correct:[0,1,2],
+      explanation:'كاتب الضبط يعد محضر الجلسة، سجل القضايا، ملفات القضايا. تحرير الأحكام يوقعه القاضي.' },
+
+    { id:'K003', axis:'دور كاتب الضبط', difficulty:'hard',
+      question:'ما هي شروط محضر الجلسة؟',
+      options:['الكتابة','تحديد التاريخ والساعة','توقيع القاضي والكاتب','موافقة الأطراف على المضمون'],
+      correct:[0,1,2],
+      explanation:'محضر الجلسة: مكتوب، مؤرخ ومؤقت، موقّع. موافقة الأطراف على المضمون لا تُشترط.' },
+
+    { id:'K004', axis:'دور كاتب الضبط', difficulty:'medium',
+      question:'ما هي أنواع التبليغ الذي يقوم به كاتب الضبط؟',
+      options:['تبليغ الاستدعاءات','تبليغ الأحكام','تبليغ المذكرات','تبليغ الأحكام الجنائية عن بُعد'],
+      correct:[0,1,2],
+      explanation:'كاتب الضبط يبلغ: استدعاءات، أحكام، مذكرات. التبليغ عن بعد تصنيف غير قضائي.' },
+
+    { id:'K005', axis:'دور كاتب الضبط', difficulty:'hard',
+      question:'ما هي شروط صحة التبليغ؟',
+      options:['أن يكون مكتوباً','أن يكون في أجل معقول','أن يكون قانونياً','أن يوافق المستدعى عليه'],
+      correct:[0,1,2],
+      explanation:'صحة التبليغ: كتابة، أجل، قانونية. الموافقة لا تُشترط.' },
+
+    { id:'K006', axis:'دور كاتب الضبط', difficulty:'easy',
+      question:'من يقوم بتحرير محضر الجلسة؟',
+      options:['كاتب الضبط','القاضي فقط','رئيس المحكمة','المحامي'],
+      correct:[0],
+      explanation:'كاتب الضبط هو من يحرر محضر الجلسة، وليس القاضي فقط أو غيره.' },
+
+    { id:'K007', axis:'دور كاتب الضبط', difficulty:'medium',
+      question:'ما هي معلومات السجل القضائي؟',
+      options:['تاريخ القضية','أطراف القضية','رقم القضية','رأي الكاتب في النزاع'],
+      correct:[0,1,2],
+      explanation:'السجل: تاريخ، أطراف، رقم. رأي الكاتب في النزاع لا يدخل في السجل.' },
+
+    { id:'K008', axis:'دور كاتب الضبط', difficulty:'hard',
+      question:'ما هي واجبات كاتب الضبط المهنية؟',
+      options:['الأمانة','السر المهني','الحياد','الإدلاء بالرأي في الأحكام'],
+      correct:[0,1,2],
+      explanation:'واجبات: أمانة، سر، حياد. الإدلاء بالرأي في الأحكام ممنوع.' },
+
+    { id:'K009', axis:'دور كاتب الضبط', difficulty:'medium',
+      question:'ما هي أنواع الوثائق التي يحفظها كاتب الضبط؟',
+      options:['الملفات القضائية','الأحكام','المحاضر','الإعلانات الحكومية'],
+      correct:[0,1,2],
+      explanation:'الوثائق المحفوظة: ملفات، أحكام، محاضر. الإعلانات الحكومية ليست من اختصاصه.' },
+
+    { id:'K010', axis:'دور كاتب الضبط', difficulty:'hard',
+      question:'ما هي شروط حفظ الوثائق؟',
+      options:['مكان آمن','ترتيب حسب الرقم','تسجيل في سجل خاص','إتلاف بعد المدة'],
+      correct:[0,1,2],
+      explanation:'حفظ الوثائق: مكان آمن، ترتيب، تسجيل. الإتلاف بعد المدة قد يكون بموافقة السلطات المختصة.' },
+
+    { id:'K011', axis:'دور كاتب الضبط', difficulty:'easy',
+      question:'ما هو التسجيل الذي يقوم به كاتب الضبط للقضايا؟',
+      options:['تسجيل رقم القضية','تسجيل الأطراف','تسجيل نوع القضية','تسجيل عدد الشهود فقط'],
+      correct:[0,1,2],
+      explanation:'كاتب الضبط يسجل: الرقم، الأطراف، النوع. عدد الشهود جزء من التفاصيل وليس تسجيلاً رئيسياً.' },
+
+    { id:'K012', axis:'دور كاتب الضبط', difficulty:'medium',
+      question:'ما هي مهمة كاتب الضبط أمام القاضي؟',
+      options:['تحرير ما يمليه القاضي','تنظيم الملفات','تبليغ الأطراف','إصدار الأحكام'],
+      correct:[0,1,2],
+      explanation:'أمام القاضي: يحرر، ينظم، يبلغ. إصدار الأحكام ليس من مهامه.' },
+
+    { id:'K013', axis:'دور كاتب الضبط', difficulty:'hard',
+      question:'ما هي مسؤوليات كاتب الضبط؟',
+      options:['المسؤولية التأديبية','المسؤولية المدنية','المسؤولية الجنائية عند التواطؤ','المسؤولية القضائية'],
+      correct:[0,1,2],
+      explanation:'مسؤوليات كاتب الضبط: تأديبية، مدنية، جنائية في حال التواطؤ. المسؤولية القضائية خاصة بالقضاة.' },
+
+    { id:'K014', axis:'دور كاتب الضبط', difficulty:'medium',
+      question:'ما هو دور كاتب الضبط في التبليغ؟',
+      options:['تحضير الإشعارات','إرسال التبليغ','التحقق من التبليغ','إلغاء التبليغ بدون سبب'],
+      correct:[0,1,2],
+      explanation:'دور كاتب الضبط في التبليغ: تحضير، إرسال، تحقق. الإلغاء بدون سبب ممنوع.' },
+
+    { id:'K015', axis:'دور كاتب الضبط', difficulty:'hard',
+      question:'ما هي شروط كاتب الضبط الرئيسي؟',
+      options:['خبرة في العمل القضائي','الكفاءة المهنية','الأهلية القانونية','الانتماء النقابي'],
+      correct:[0,1,2],
+      explanation:'شروط كاتب الضبط الرئيسي: خبرة، كفاءة، أهلية. الانتماء النقابي ليس شرطاً.' },
+
+    { id:'K016', axis:'دور كاتب الضبط', difficulty:'easy',
+      question:'ما هو الفرق بين كاتب الضبط والقاضي؟',
+      options:['القاضي يصدر الأحكام','كاتب الضبط يحفظ الوثائق','القاضي يحرر المحاضر','كاتب الضبط يقدم رأيه في الحكم'],
+      correct:[0,1],
+      explanation:'القاضي يصدر الأحكام، كاتب الضبط يحفظ الوثائق. تحرير المحاضر ليس من مهام القاضي، وتقديم الرأي في الحكم ليس من مهام الكاتب.' },
+
+    { id:'K017', axis:'دور كاتب الضبط', difficulty:'medium',
+      question:'ما هي أعمال كاتب الضبط في الجلسة؟',
+      options:['النداء على القضايا','تحرير المحضر','تنظيم الجلسة','إصدار الحكم'],
+      correct:[0,1,2],
+      explanation:'أعمال الكاتب في الجلسة: النداء، تحرير المحضر، التنظيم. إصدار الحكم ليس من مهامه.' },
+
+    { id:'K018', axis:'دور كاتب الضبط', difficulty:'hard',
+      question:'ما هي شروط تحرير الأحكام؟',
+      options:['يوقعها القاضي','يوقّعها كاتب الضبط مع القاضي','تُحرر في مدة معينة','تُبلغ في مدة معينة'],
+      correct:[0,1,2,3],
+      explanation:'الحكم: يوقعه القاضي وكاتب الضبط، يُحرر داخل مدة، ويُبلغ داخل مدة.' },
+
+    { id:'K019', axis:'دور كاتب الضبط', difficulty:'medium',
+      question:'ما هي مسؤولية كاتب الضبط تجاه القاضي؟',
+      options:['التنفيذ الفوري للأوامر','التحرير الدقيق','الحفظ','إصدار الأحكام بدلاً من القاضي'],
+      correct:[0,1,2],
+      explanation:'مسؤولية الكاتب: تنفيذ الأوامر، التحرير، الحفظ. إصدار الأحكام ليس من مهامه.' },
+
+    { id:'K020', axis:'دور كاتب الضبط', difficulty:'hard',
+      question:'ما هي مسؤولية كاتب الضبط تجاه الأطراف؟',
+      options:['تبليغ التبليغات','تسليم نسخ الأحكام','الإحاطة بحقوقهم','الدفاع عنهم'],
+      correct:[0,1,2],
+      explanation:'مسؤولية الكاتب تجاه الأطراف: تبليغ، تسليم، إحاطة. الدفاع عن الأطراف من مهام المحامي.' },
+
+    // ═══════════════ أسئلة شاملة ومتقدمة (20) ═══════════════
+    { id:'X001', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي شروط الدعوى العمومية؟',
+      options:['وجود جريمة','وجود متهم','وجود ضرر','شكوى المجني عليه دائماً'],
+      correct:[0,1,2],
+      explanation:'شروط الدعوى العمومية: جريمة، متهم، ضرر. الشكوى شرط خاص لبعض الجرائم فقط.' },
+
+    { id:'X002', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي عناصر الدعوى المدنية؟',
+      options:['الأطراف','المحل','السبب','الشكل'],
+      correct:[0,1,2],
+      explanation:'عناصر الدعوى المدنية: الأطراف، المحل، السبب. الشكل شرط إجراء وليس عنصراً.' },
+
+    { id:'X003', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي الفروق بين المدني والجنائي؟',
+      options:['الهدف: تعويض vs عقاب','الأطراف: أفراد vs مجتمع','الاختصاص: مدني vs جنائي','كلاهما نفس الإجراءات'],
+      correct:[0,1,2],
+      explanation:'الفروق: هدف، أطراف، اختصاص. الإجراءات مختلفة.' },
+
+    { id:'X004', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي اختصاصات القضاء الإداري؟',
+      options:['إلغاء القرارات الإدارية','تعويض الأضرار الإدارية','تفسير القرارات','مراقبة تطبيق القانون الجنائي'],
+      correct:[0,1,2],
+      explanation:'القضاء الإداري: إلغاء، تعويض، تفسير. القانون الجنائي لا يدخل في اختصاصه.' },
+
+    { id:'X005', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي شروط الدعوى الإدارية؟',
+      options:['قرار إداري','ضرر ناتج عن القرار','المصلحة','موافقة الإدارة'],
+      correct:[0,1,2],
+      explanation:'شروط الدعوى الإدارية: قرار، ضرر، مصلحة. موافقة الإدارة لا تُشترط.' },
+
+    { id:'X006', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي اختصاصات المحكمة التجارية؟',
+      options:['النزاعات التجارية','الإفلاس','الشركات','النزاعات الأسرية'],
+      correct:[0,1,2],
+      explanation:'المحكمة التجارية: نزاعات تجارية، إفلاس، شركات. النزاعات الأسرية من اختصاص محاكم أخرى.' },
+
+    { id:'X007', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي شروط الدعوى التجارية؟',
+      options:['وجود عمل تجاري','وجود تاجر','وجود نزاع تجاري','موافقة الغرفة التجارية'],
+      correct:[0,1,2],
+      explanation:'شروط الدعوى التجارية: عمل تجاري، تاجر، نزاع. الموافقة لا تُشترط.' },
+
+    { id:'X008', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي الفروق بين العقد المدني والعقد التجاري؟',
+      options:['المدني للتداول المدني','التجاري للتداول التجاري','التجاري له قواعد أسرع','كلاهما نفس القواعد'],
+      correct:[0,1,2],
+      explanation:'الفروق: الغرض، القواعد الأسرع في التجاري. القواعد ليست متطابقة.' },
+
+    { id:'X009', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي شروط صحة الاتفاق؟',
+      options:['الرضا','الأهلية','المحل','موافقة الغير'],
+      correct:[0,1,2],
+      explanation:'شروط الاتفاق: رضا، أهلية، محل. موافقة الغير لا تُشترط.' },
+
+    { id:'X010', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي أنواع الاختصاص الجنائي؟',
+      options:['النوعي','الإقليمي','الشخصي','الزمني'],
+      correct:[0,1,2],
+      explanation:'الاختصاص الجنائي: نوعي (نوع الجريمة)، إقليمي (مكان)، شخصي (شخص المتهم).' },
+
+    { id:'X011', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي شروط الأمر بالقبض؟',
+      options:['وجود جريمة','وجود أدلة كافية','إذن النيابة','موافقة المتهم'],
+      correct:[0,1,2],
+      explanation:'شروط القبض: جريمة، أدلة، إذن النيابة. موافقة المتهم لا تُشترط.' },
+
+    { id:'X012', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي شروط محضر التحقيق؟',
+      options:['مكتوب','مؤرخ','موقع','موافقة المتهم على المضمون'],
+      correct:[0,1,2],
+      explanation:'محضر التحقيق: مكتوب، مؤرخ، موقع. موافقة المتهم على المضمون لا تُشترط.' },
+
+    { id:'X013', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي شروط الإفراج المؤقت؟',
+      options:['عدم وجود خطر على النظام العام','وجود ضمانات كافية','إذن قاضي التحقيق','موافقة المتهم'],
+      correct:[0,1,2],
+      explanation:'شروط الإفراج: لا خطر، ضمانات، إذن قاض. موافقة المتهم لا تُشترط (قد يطلبها).' },
+
+    { id:'X014', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي أنواع العقود؟',
+      options:['عقد مسمى','عقد غير مسمى','عقد إذعان','عقد إداري'],
+      correct:[0,1,2],
+      explanation:'أنواع العقود: مسمى، غير مسمى، إذعان. الإداري تصنيف خاص بالقانون الإداري.' },
+
+    { id:'X015', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي شروط المسؤولية الإدارية؟',
+      options:['خطأ في المرفق العام','ضرر','علاقة سببية','قرار إداري'],
+      correct:[0,1,2],
+      explanation:'شروط المسؤولية الإدارية: خطأ، ضرر، علاقة سببية. القرار الإداري شرط للدعوى الإدارية لا للمسؤولية.' },
+
+    { id:'X016', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي مهام المرفق العام؟',
+      options:['خدمة الجمهور','ضمان الاستمرارية','المساواة','تحقيق الربح'],
+      correct:[0,1,2],
+      explanation:'مهام المرفق العام: خدمة، استمرارية، مساواة. تحقيق الربح ليس من مهامه.' },
+
+    { id:'X017', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي شروط صحة القرار الإداري؟',
+      options:['الاختصاص','الشكل','المحل','موافقة المرتفقين'],
+      correct:[0,1,2],
+      explanation:'شروط صحة القرار: اختصاص، شكل، محل. موافقة المرتفقين لا تُشترط.' },
+
+    { id:'X018', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي مبادئ المرفق العام؟',
+      options:['الاستمرارية','المساواة','التطور','الربحية'],
+      correct:[0,1,2],
+      explanation:'مبادئ المرفق: استمرارية، مساواة، تطور (التكيف). الربحية ليست من مبادئه.' },
+
+    { id:'X019', axis:'أسئلة شاملة', difficulty:'hard',
+      question:'ما هي اختصاصات المحكمة العليا الإدارية؟',
+      options:['إلغاء القرارات الإدارية','الفصل في القضايا الإدارية الكبرى','الطعن بالنقض الإداري','التحقيق في الجرائم'],
+      correct:[0,1,2],
+      explanation:'المحكمة الإدارية: إلغاء، فصل، نقض. التحقيق في الجرائم من اختصاص التحقيق الجنائي.' },
+
+    { id:'X020', axis:'أسئلة شاملة', difficulty:'medium',
+      question:'ما هي شروط الدعوى الإدارية؟',
+      options:['قرار إداري','مصلحة','أهلية','أجل الطعن'],
+      correct:[0,1,2,3],
+      explanation:'شروط الدعوى الإدارية: قرار، مصلحة، أهلية، أجل الطعن.' },
+];
+
+// ============================================================
+//  APPLICATION LOGIC — Multi-Answer Support
+// ============================================================
+(function() {
+    let filteredQuestions = [];
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = { correct: 0, wrong: 0, unanswered: 0 };
+    let answered = [];      // true if verified
+    let userSelections = {}; // { qIndex: Set(selected indices) }
+    let examMode = false;
+
+    const homeView = document.getElementById('homeView');
+    const quizView = document.getElementById('quizView');
+    const resultView = document.getElementById('resultView');
+    const axisFilter = document.getElementById('axisFilter');
+    const difficultyFilter = document.getElementById('difficultyFilter');
+    const countFilter = document.getElementById('countFilter');
+    const startPracticeBtn = document.getElementById('startPracticeBtn');
+    const startExamBtn = document.getElementById('startExamBtn');
+    const qText = document.getElementById('qText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const feedbackContainer = document.getElementById('feedbackContainer');
+    const qCounter = document.getElementById('qCounter');
+    const qAxisLabel = document.getElementById('qAxisLabel');
+    const qDifficultyLabel = document.getElementById('qDifficultyLabel');
+    const progressFill = document.getElementById('progressFill');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const quitBtn = document.getElementById('quitBtn');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const finalScore = document.getElementById('finalScore');
+    const finalPercent = document.getElementById('finalPercent');
+    const correctCount = document.getElementById('correctCount');
+    const wrongCount = document.getElementById('wrongCount');
+    const unansweredCount = document.getElementById('unansweredCount');
+    const performanceMsg = document.getElementById('performanceMsg');
+    const retryBtn = document.getElementById('retryBtn');
+    const homeBtn = document.getElementById('homeBtn');
+    const reviewMistakesBtn = document.getElementById('reviewMistakesBtn');
+    const reviewContainer = document.getElementById('reviewContainer');
+    const totalQuestionCount = document.getElementById('totalQuestionCount');
+
+    totalQuestionCount.textContent = questions.length;
+
+    function updateAxisFilter() {
+        const axes = new Set();
+        questions.forEach(q => axes.add(q.axis));
+        axisFilter.innerHTML = '<option value="all">الكل</option>';
+        [...axes].sort().forEach(a => {
+            const opt = document.createElement('option');
+            opt.value = a;
+            opt.textContent = a;
+            axisFilter.appendChild(opt);
+        });
+    }
+
+    function getFiltered() {
+        const axis = axisFilter.value;
+        const diff = difficultyFilter.value;
+        return questions.filter(q => {
+            if (axis !== 'all' && q.axis !== axis) return false;
+            if (diff !== 'all' && q.difficulty !== diff) return false;
+            return true;
+        });
+    }
+
+    function startQuiz(mode) {
+        examMode = (mode === 'exam');
+        filteredQuestions = getFiltered();
+        if (filteredQuestions.length === 0) {
+            alert('لا توجد أسئلة مطابقة لهذه الاختيارات.');
+            return;
+        }
+        const count = countFilter.value;
+        let selected = [...filteredQuestions];
+        if (count !== 'all') {
+            const n = parseInt(count);
+            if (n < selected.length) {
+                selected = shuffleArray(selected).slice(0, n);
+            } else {
+                selected = shuffleArray(selected);
+            }
+        } else {
+            selected = shuffleArray(selected);
+        }
+        currentQuestions = selected;
+        currentIndex = 0;
+        score = { correct: 0, wrong: 0, unanswered: 0 };
+        userSelections = {};
+        answered = new Array(currentQuestions.length).fill(false);
+        // initialize empty selections
+        currentQuestions.forEach((q, i) => {
+            userSelections[i] = new Set();
+        });
+        homeView.classList.add('hidden');
+        quizView.classList.remove('hidden');
+        resultView.classList.add('hidden');
+        renderQuestion();
+    }
+
+    function shuffleArray(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function shuffleOptions(q) {
+        // shuffle options while keeping tracking of original index
+        const opts = q.options.map((t, i) => ({ text: t, origIdx: i }));
+        const shuffled = shuffleArray(opts);
+        return {
+            options: shuffled.map(o => o.text),
+            origIndices: shuffled.map(o => o.origIdx)
+        };
+    }
+
+    function renderQuestion() {
+        if (currentQuestions.length === 0) return;
+        const q = currentQuestions[currentIndex];
+        const total = currentQuestions.length;
+        qCounter.textContent = `السؤال ${currentIndex+1} من ${total}`;
+        progressFill.style.width = `${((currentIndex+1)/total)*100}%`;
+        qAxisLabel.textContent = q.axis || 'المحور';
+        qDifficultyLabel.textContent = q.difficulty === 'easy' ? 'سهل' : q.difficulty === 'medium' ? 'متوسط' : 'صعب';
+        qText.textContent = q.question;
+
+        // shuffle display order
+        const shuffled = shuffleOptions(q);
+        q._displayOptions = shuffled.options;
+        q._origIndices = shuffled.origIndices;
+
+        optionsContainer.innerHTML = '';
+        const letters = ['أ', 'ب', 'ج', 'د'];
+        shuffled.options.forEach((opt, displayIdx) => {
+            const btn = document.createElement('div');
+            btn.className = 'option-btn';
+            btn.dataset.displayIdx = displayIdx;
+            btn.dataset.origIdx = shuffled.origIndices[displayIdx];
+            btn.innerHTML = `<span class="letter">${letters[displayIdx]}</span><span>${opt}</span>`;
+            btn.addEventListener('click', function() {
+                toggleOption(parseInt(this.dataset.displayIdx), parseInt(this.dataset.origIdx));
+            });
+            optionsContainer.appendChild(btn);
+        });
+
+        // Restore state if already answered
+        const isAnswered = answered[currentIndex];
+        if (isAnswered) {
+            applyVerifiedState(q);
+        } else {
+            // Restore any pre-verified selections (user was choosing)
+            restoreSelections();
+            verifyBtn.disabled = false;
+            verifyBtn.textContent = '✅ تحقق';
+            feedbackContainer.classList.add('hidden');
+            feedbackContainer.innerHTML = '';
+        }
+
+        prevBtn.disabled = (currentIndex === 0);
+        nextBtn.textContent = (currentIndex === total - 1) ? 'إنهاء' : 'التالي';
+    }
+
+    function restoreSelections() {
+        const selected = userSelections[currentIndex] || new Set();
+        const btns = optionsContainer.querySelectorAll('.option-btn');
+        btns.forEach((b, i) => {
+            const origIdx = parseInt(b.dataset.origIdx);
+            if (selected.has(origIdx)) {
+                b.classList.add('checked');
+            } else {
+                b.classList.remove('checked');
+            }
+        });
+    }
+
+    function toggleOption(displayIdx, origIdx) {
+        if (answered[currentIndex]) return;
+        const selected = userSelections[currentIndex];
+        if (selected.has(origIdx)) {
+            selected.delete(origIdx);
+        } else {
+            selected.add(origIdx);
+        }
+        // update the button visual
+        const btn = optionsContainer.querySelector(`.option-btn[data-display-idx="${displayIdx}"]`);
+        if (btn) {
+            btn.classList.toggle('checked');
+        }
+    }
+
+    function applyVerifiedState(q) {
+        const btns = optionsContainer.querySelectorAll('.option-btn');
+        const correctSet = new Set(q.correct);
+        const selectedSet = userSelections[currentIndex] || new Set();
+        btns.forEach((b) => {
+            const origIdx = parseInt(b.dataset.origIdx);
+            b.classList.add('disabled');
+            b.classList.remove('checked');
+            if (correctSet.has(origIdx) && selectedSet.has(origIdx)) {
+                b.classList.add('correct');
+            } else if (correctSet.has(origIdx) && !selectedSet.has(origIdx)) {
+                b.classList.add('missed'); // user missed a correct answer
+            } else if (!correctSet.has(origIdx) && selectedSet.has(origIdx)) {
+                b.classList.add('wrong');
+            }
+        });
+        verifyBtn.disabled = true;
+        verifyBtn.textContent = '✔ تم التحقق';
+        showFeedback(q);
+    }
+
+    function verifyCurrent() {
+        if (answered[currentIndex]) return;
+        const q = currentQuestions[currentIndex];
+        const selected = userSelections[currentIndex] || new Set();
+        if (selected.size === 0) {
+            alert('الرجاء اختيار إجابة واحدة على الأقل قبل التحقق.');
+            return;
+        }
+        // Check correctness: exact match between selected and correct
+        const correctSet = new Set(q.correct);
+        let isCorrect = true;
+        if (selected.size !== correctSet.size) {
+            isCorrect = false;
+        } else {
+            for (const s of selected) {
+                if (!correctSet.has(s)) {
+                    isCorrect = false;
+                    break;
+                }
+            }
+        }
+        if (isCorrect) {
+            score.correct++;
+        } else {
+            score.wrong++;
+        }
+        answered[currentIndex] = true;
+        applyVerifiedState(q);
+    }
+
+    function showFeedback(q) {
+        const selected = userSelections[currentIndex] || new Set();
+        const correctSet = new Set(q.correct);
+        let isCorrect = selected.size === correctSet.size;
+        if (isCorrect) {
+            for (const s of selected) {
+                if (!correctSet.has(s)) { isCorrect = false; break; }
+            }
+        }
+        feedbackContainer.classList.remove('hidden', 'correct-fb', 'wrong-fb');
+        feedbackContainer.classList.add(isCorrect ? 'correct-fb' : 'wrong-fb');
+        const letters = ['أ', 'ب', 'ج', 'د'];
+        const correctLabels = q.correct.map(i => letters[i]).join('، ');
+        let html = `<div class="fb-title">${isCorrect ? '✅ إجابة صحيحة تماماً' : '❌ إجابة غير مكتملة أو خاطئة'}</div>`;
+        html += `<div class="fb-explain">الإجابات الصحيحة: <strong>${correctLabels}</strong></div>`;
+        html += `<div class="fb-explain" style="margin-top:6px;">${q.explanation}</div>`;
+        feedbackContainer.innerHTML = html;
+    }
+
+    function goToNext() {
+        if (currentIndex === currentQuestions.length - 1) {
+            finishQuiz();
+        } else {
+            currentIndex++;
+            renderQuestion();
+        }
+    }
+
+    function goToPrev() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion();
+        }
+    }
+
+    function finishQuiz() {
+        const total = currentQuestions.length;
+        const correct = score.correct;
+        const wrong = score.wrong;
+        const unanswered = total - (correct + wrong);
+        score.unanswered = unanswered;
+        quizView.classList.add('hidden');
+        resultView.classList.remove('hidden');
+        finalScore.textContent = `${correct} / ${total}`;
+        const pct = Math.round((correct/total)*100);
+        finalPercent.textContent = `${pct}%`;
+        correctCount.textContent = correct;
+        wrongCount.textContent = wrong;
+        unansweredCount.textContent = unanswered;
+        let msg = '';
+        if (pct >= 90) msg = '🏆 ممتاز جداً، مستوى قوي.';
+        else if (pct >= 75) msg = '👍 جيد جداً، واصل المراجعة.';
+        else if (pct >= 60) msg = '📖 مستوى جيد، تحتاج إلى مراجعة بعض المحاور.';
+        else msg = '📚 تحتاج إلى مراجعة الدروس وإعادة التدريب.';
+        performanceMsg.textContent = msg;
+        reviewContainer.classList.add('hidden');
+        reviewContainer.innerHTML = '';
+    }
+
+    function showReviewMistakes() {
+        const container = reviewContainer;
+        if (container.classList.contains('hidden')) {
+            container.classList.remove('hidden');
+            let html = '<h3 style="margin-bottom:10px;">📖 مراجعة الأخطاء</h3>';
+            let hasMistakes = false;
+            currentQuestions.forEach((q, idx) => {
+                if (answered[idx]) {
+                    const selected = userSelections[idx] || new Set();
+                    const correctSet = new Set(q.correct);
+                    let isCorrect = selected.size === correctSet.size;
+                    if (isCorrect) {
+                        for (const s of selected) {
+                            if (!correctSet.has(s)) { isCorrect = false; break; }
+                        }
+                    }
+                    if (!isCorrect) {
+                        hasMistakes = true;
+                        const letters = ['أ', 'ب', 'ج', 'د'];
+                        const selLabels = [...selected].sort().map(i => letters[i]).join('، ') || '—';
+                        const corrLabels = q.correct.map(i => letters[i]).join('، ');
+                        html += `<div class="review-item">`;
+                        html += `<div class="review-q">${idx+1}. ${q.question}</div>`;
+                        html += `<div class="review-answer"><span class="review-wrong">اخترت: ${selLabels}</span> | <span class="review-correct">الصحيح: ${corrLabels}</span></div>`;
+                        html += `<div style="font-size:0.9rem; color:#475569; margin-top:6px;">${q.explanation}</div>`;
+                        html += `</div>`;
+                    }
+                }
+            });
+            if (!hasMistakes) {
+                html += '<div style="text-align:center; padding:20px; color:#16a34a; font-weight:600;">🎉 لا توجد أخطاء! أحسنت.</div>';
+            }
+            container.innerHTML = html;
+        } else {
+            container.classList.add('hidden');
+        }
+    }
+
+    function resetToHome() {
+        homeView.classList.remove('hidden');
+        quizView.classList.add('hidden');
+        resultView.classList.add('hidden');
+        reviewContainer.classList.add('hidden');
+        reviewContainer.innerHTML = '';
+    }
+
+    // Event Listeners
+    startPracticeBtn.addEventListener('click', function() { startQuiz('practice'); });
+    startExamBtn.addEventListener('click', function() { startQuiz('exam'); });
+    verifyBtn.addEventListener('click', verifyCurrent);
+    nextBtn.addEventListener('click', goToNext);
+    prevBtn.addEventListener('click', goToPrev);
+    quitBtn.addEventListener('click', function() {
+        if (confirm('هل تريد إنهاء الاختبار قبل اكتماله؟')) {
+            resetToHome();
+        }
+    });
+    retryBtn.addEventListener('click', function() {
+        startQuiz(examMode ? 'exam' : 'practice');
+    });
+    homeBtn.addEventListener('click', resetToHome);
+    reviewMistakesBtn.addEventListener('click', showReviewMistakes);
+
+    // Init
+    updateAxisFilter();
+})();
+</script>
+</body>
+</html>
